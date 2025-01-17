@@ -14,31 +14,24 @@ def main():
     print("--- End report ---")
 
 
+
 def get_char_count(text):
     char_dict = {}
     lowercase_text = text.lower()
     
     for character in lowercase_text:   
-        if character.isalpha() == True: # check if it's a letter
-            if character not in char_dict:  # add it to dict
-                char_dict[character] = 1
-            else:
-                char_dict[character] += 1   # add to counter
+        if character.isalpha(): # check if it's a letter (don't need to put == True since ".isalpha" already has that check built in)
+            char_dict[character] = char_dict.get(character, 0) + 1 #checks the character, returns its value if it exists (otherwise assigns 0 as value), then increments by 1
         
-
     # Convert dictionary to list of dictionaries
-    char_list = []
-    for char, num in char_dict.items():
-        char_list.append({"char": char, "num": num})
+    char_list = [{"char": char, "num": num} for char, num in char_dict.items()]
     return char_list
 
-def sort_on(char_list):
-    return char_list["num"] # returns the value of the "num" in the dictionary
-
-def sort_count(char_list):
-
-    char_list.sort(reverse=True, key=sort_on) # sorts the characters
-    return char_list
+def sort_count(char_list): 
+    return sorted(char_list, key=lambda x: x["num"], reverse=True)
+    # for above, lambda returns "num"'s value in the dict
+    # reverse makes it in order of big to small
+    # sorted returns a new sorted list (vs sort() which would sort the current list)
 
 def get_num_words(text):
     words = text.split()
